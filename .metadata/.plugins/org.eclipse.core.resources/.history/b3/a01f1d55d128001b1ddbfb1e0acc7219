@@ -1,0 +1,11 @@
+package useDao;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GetBoardListTest {
+    public static void main(String[] args) {
+    	BoardDAO boardDAO = new BoardDAO();
+    	List<BoardVO> list = boardDAO.getBoardList();
+    }
+}

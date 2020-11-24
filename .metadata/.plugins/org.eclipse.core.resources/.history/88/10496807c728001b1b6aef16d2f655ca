@@ -1,0 +1,101 @@
+package com.rubypaper.biz.board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import useDao.JDBCUtil;
+
+public class BoardDAO {
+	private Connection conn;
+	private PreparedStatement stmt;
+	private ResultSet rs;
+	
+	// Board 테이블 관련 명령어
+	private static final String BOARD_INSERT =  "insert into board(seq, title, writer, content) " + 
+												"values((select nvl(max(seq), 0)+1 from board), ?, ?, ?)";
+	private static final String BOARD_UPDATE = "update board set title = ?, content = ? where seq = ?";
+	private static final String BOARD_DELETE = "delete board where seq = ?";
+	private static final String BOARD_GET = "SELECT * FROM BOARD WHERE SEQ = ?";
+	private static final String BOARD_LIST = "select * from board order by seq desc";
+	
+	//BORAD 테이블 관련 CRUD 기능의 메소드
+	// 글 등록
+	public void insertBoard(String title, String writer, String content) {
+		try {
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_INSERT);
+			stmt.setString(1,  title);
+			stmt.setString(2,  writer);
+			stmt.setString(3,  content);
+			stmt.executeUpdate();
+		} catch(Exception e) {
+			
+		} finally {
+			JDBCUtil.close(stmt, conn);
+		}
+	}
+	// 글 수정
+	public void updateBoard(String title, String content, int seq) {
+		try {
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_UPDATE);
+			stmt.setString(1, title);
+			stmt.setString(2, content);
+			stmt.setInt(3,  seq);
+			stmt.executeUpdate();
+		} catch(Exception e) {
+			
+		} finally {
+			JDBCUtil.close(stmt, conn);
+		}
+	}
+	// 글 삭제
+	public void deleteBoard(int seq) {
+		try {
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_DELETE);
+			stmt.setInt(1,  seq);
+			stmt.executeUpdate();
+		} catch(Exception e) {
+			
+		} finally {
+			JDBCUtil.close(stmt, conn);
+		}
+	}
+	// 상세보기
+	public void getBoard(int seq) {
+		try {
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_GET);
+			stmt.setInt(1,  seq);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				System.out.println(rs.getInt("SEQ") + "번 게시글 내용 : " + rs.getString("CONTENT"));
+			}
+		} catch(Exception e) {
+			
+		} finally {
+			JDBCUtil.close(rs, stmt, conn);
+		}
+	}
+	// 전체보기
+	public void getBoardList() {
+		try {
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_LIST);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getInt("SEQ") + " : " + rs.getString("CONTENT"));
+			}
+		} catch(Exception e) {
+			
+		} finally {
+			JDBCUtil.close(rs, stmt, conn);
+		}
+	}
+	public static void main(String[] args) {
+		BoardDAO dao = new BoardDAO();
+		
+	}
+}

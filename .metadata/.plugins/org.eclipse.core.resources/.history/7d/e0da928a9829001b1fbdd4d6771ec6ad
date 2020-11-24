@@ -1,0 +1,27 @@
+package hello;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class helloServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	// 웹 페이지가 호출되면 톰캣 안의 서블릿 엔진이 객체를 생성하고, doGet메소드를 호출한다.
+	// 서블릿 엔진은 web.xml을 기반으로 생성된다.
+	// 서블릿은 서블릿 엔진에 의해 생성된다.
+	// 서블릿 엔진은 내부에 쓰레드풀을 갖고 있다. 그래서 우선순위에따라 쓰레드를 할당받고, doGet, doPost를 실행하게끔한다.
+    public helloServlet() {
+        System.out.println("--> helloservlet 객체 생성");
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("--> doGet 메소드 생성");
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("--> doPost 메소드 생성");
+	}
+
+}

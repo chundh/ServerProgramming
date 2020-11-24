@@ -1,0 +1,16 @@
+package useDao;
+
+import java.sql.Date;
+
+// ValueObject
+public class BoardVO {
+	// 테이블의 컬럼 이름과 동일한 멤버변수 (데이터 타입까지)를 private으로 선언한다.
+	private int seq;
+	private String title;
+	private String writer;
+	private String content;
+	private Date regDate;
+	private int cnt;
+	
+	// private 변수에 접근하는 getter setter를 작성한다.
+}

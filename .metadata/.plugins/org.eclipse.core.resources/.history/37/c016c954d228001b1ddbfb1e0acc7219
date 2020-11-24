@@ -1,0 +1,13 @@
+package useDao;
+import java.sql.*;
+
+public class GetBoardTest {
+    public static void main(String[] args) {
+    	BoardDAO boardDAO = new BoardDAO();
+    	BoardVO vo = new BoardVO();
+    	vo.setSeq(2);
+    	
+    	boardDAO.getBoard(vo);
+    	
+    }
+}

@@ -1,0 +1,18 @@
+package polymorphism4;
+
+/**
+ * main?—?„œ ê°ì²´ë¥? ì§ì ‘ ?ƒ?„±?•˜ì§? ?•Šê³?, factoryë¡œë??„° ê°ì²´ë¥? ë°›ì•„?˜¨?‹¤.
+ * ê²‰ìœ¼ë¡? ë³´ê¸°?— ?–´?–¤ ê°ì²´ê°? ?˜¬ì§? ?•Œ ?ˆ˜ ?—†?‹¤. -> Encapsulation
+ * ?œ ì§?ë³´ìˆ˜ë¥? ?‰½ê²? ?•˜ê¸? ?œ„?•´?„œ?Š” ì½”ë“œ?˜ ë³??™”ë¥? ìµœì†Œ?™” ?•´?•¼?•œ?‹¤.
+ */
+
+public class TVUser {
+    public static void main(String[] args) {
+        BeanFactory factory = new BeanFactory();
+        TV tv = (TV) factory.getBean(args[0]);
+        tv.powerOn();
+        tv.volumeUp();
+        tv.volumeDown();
+        tv.powerOff();
+    }
+}
