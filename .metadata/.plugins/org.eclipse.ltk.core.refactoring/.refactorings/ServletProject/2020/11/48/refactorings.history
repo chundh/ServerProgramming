@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy 2 elements to &apos;lib&apos;&#x0D;&#x0A;- Original project: &apos;ServletProject&apos;&#x0D;&#x0A;- Destination element: &apos;lib&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     h2-1.4.200.jar&#x0D;&#x0A;     lombok.jar" description="Copy files" element1="WebContent/WEB-INF/lib/h2-1.4.200.jar" element2="WebContent/WEB-INF/lib/lombok.jar" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1606124160025" target="/MVCProject/WebContent/WEB-INF/lib" units="0" version="1.0"/>
-</session>

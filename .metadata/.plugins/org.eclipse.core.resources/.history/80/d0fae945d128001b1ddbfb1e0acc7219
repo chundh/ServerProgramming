@@ -1,9 +1,0 @@
-package useDao;
-import java.sql.*;
-
-public class GetBoardListTest {
-    public static void main(String[] args) {
-    	BoardDAO boardDAO = new BoardDAO();
-    	boardDAO.getBoardList();
-    }
-}
