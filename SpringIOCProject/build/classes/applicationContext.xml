@@ -1,23 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<!-- xmlns에는 해당 xml에서 사용할 수 있는 태그를 나타내는 이름 공간이다.
+		 schmalocation에는 해당 태그들이 저장되어 있는 공간이다.-->
 
-
-	<!-- 스프링 IoC 컨테이너가 생성할 객체를 bean 등록한다. -->
-	<bean class="polymorphism4.GoogleTV"></bean>
-	<bean class="polymorphism4.SamsungTV"></bean>
-	<bean class="polymorphism4.LgTV"></bean>
-
+	<!-- 스프링 IoC 컨테이너가 생성할 객체를 (bean) 등록한다.
+	     id, name을 활용해 key값을 지정한다(key값끼리 중복x). name에는 특수문자를 사용할 수 있다. 특수문자를 사용하지 않을때는 id사용을 권장한다.(id가 명료하고 가독성이 좋다.)
+	           초기화 과정에서 실행해야 할 method는 init-method에 저장한다.
+	           자원해제를 위한 method는 destroy-method에 저장한다.
+	     Lazy Loading을 원하면 laze-init="true"를 넣어준다.
+	     xml에 선언된 각 key값은 싱글톤 패턴의 형식으로 관리된다. 즉 객체가 여러개 생성되지 않는다.
+	     scope는 default로 singleton이다. 설정값으로  prototype을 넣어주면 getBean이 호출될 때마다 객체를 새로 생성해서 반납한다.-->
+	     
+	<!-- <bean id="tv" class="polymorphism4.GoogleTV"
+		  init-method="initialize" 
+		  destroy-method="destroy"
+		  scope="prototype"></bean> -->
+	
+	<!-- Speaker interface를 만들고 모든 Speaker를 받을 수 있도록 해서  speaker가 바뀌었을 떄 java코드는 바꾸지 않고 xml만 바꾼다. 
+	           의존성을 주입하여 기능을 확장 or 수정할 때 코드의 변화가 없도록 한다.-->
+	 <bean id="speaker" class="polymorphism4.Speaker"></bean>
+	 
+	 <!--
+		 Constructor Injection
+	     constructor-arg 가 없으면 무조건 default 생성자를 호출한다
+	     constructor-arg를 넣어주면 파라미터로 넣어줄 값을 설정할 수 있다. 파라미터에 적합한 생성자가 호출된다. 
+	           이를 활용해서 Constructor Injection을(생성자 injection) 한다.
+	     primitive type의 경우 value를, Object인 경우 ref를 쓴다
+	<bean id="tv" class="polymorphism4.SamsungTV">
+		<constructor-arg ref="speaker" />
+		<constructor-arg value="1500"/>
+	</bean> -->
+	
+	<!-- Setter Injection
+	     property name을 활용해서 Setter메소드를 호출할 수 있다. setter메소드의 set을 지우고, 첫글자를 소문자로 하여 넣어줘야한다. 
+	     setter method의 이름과 파라미터로 구분되어 실행된다. (ref는 Object, value는 primitive Type)
+	           아래와 같은 것을 Setter Injection이라고 한다.
+	           멤버변수로 여러 변수가 있는 경우 이를 각각 그룹을 묶어 초기화 하기 위한 생성자가 필요할 수 있다.
+	           그럴때 setter Injection을 활용하면 각 변수당 setter만을 생성하고 상황에 따라 파라미터를 조절하여 초기화할 수 있다.-->
+	<!-- <bean id="tv" class="polymorphism4.SamsungTV">
+		<property name="speaker" ref="speaker"></property>
+		<property name="price" value="160000"></property>
+	</bean> -->
+	
+	<!-- import는 xml을 로드할 때 같이 해당 파일을 로드하게된다. -->
+	
+	<!-- p namespace를 활용하면 다음과 같이 동일한 내용을 표현할 수 있다. 
+	     xml의 용량을 줄여서 xml을 읽는 속도를 빠르게 하기 위해 도입되었다. 
+	           하지만 가독성이 좋지 않아 범용적으로 쓰이진 않는다.
+	     xmlns:p="http://www.springframework.org/schema/p"-->
+	<!-- <bean id="tv" class="polymorphism4.SamsungTV"
+		p:speaker-ref="speaker"
+		p:price="110000"></bean> -->
+		
+	<!-- Annotation 
+		  컴포넌트 스캔 설정을 해줘야한다. xmlns:context="http://www.springframework.org/schema/context"
+		 schemalocation에 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"을 추가한다.
+		  이 과정을 통해 context 태그를 사용할 수 있다. 특히 component-scan을 활용하자. 
+		  -->
+	<context:component-scan base-package="polymorphism4"></context:component-scan>
+	<!-- container가 polymorphism4 패키지에 해당하는 모든 클래스에서 @Component가 있는 클래스를 scan한다(클래스 객체를 생성한다.) 
+	     <bean class="polymorphism4.CLASS"와 같은 의미다
+	     component-scan에서 id를 지정하지 않는 경우 id가 자동으로 생성되게 되는데 Class이름에서 첫 글자를 소문자로한 문자로 id가 생성된다. ex.LgTV -> lgTV  
+	     id를 직접 지정하기 위해서는 @Component("tv")를 해주면 해당 클래스의 id가 tv로 설정된다.-->
+		
+	<!-- 호출해야하는 대상이 여러가지인 경우 Autowired로 불러올 수 없다. 그럴때는 bean을 쓰는것이 편하다.
+	           실제로 사용하는 Speaker객체를 등록한다. -->
+	<bean class="polymorphism4.SonySpeaker"></bean>
+	<!-- Annotation은 xml을 같이 사용해서 보다 편리하게 개발하는 것이 목적이다. xml의 양도 줄이고.
+	           아예 xml을 사용하지 않는 것이 목적이 아니다. -->
+	<!-- 자주 안바뀌는 객체에는 @Component를 주로 붙이고, 자주  바뀌는 객체는 bean으로 저장한다.-->
+	
 </beans>
-
-
-
-
-
-
-
-
-
-
 
