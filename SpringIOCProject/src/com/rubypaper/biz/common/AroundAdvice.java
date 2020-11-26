@@ -12,11 +12,15 @@ import org.springframework.util.StopWatch;
 @Service
 @Aspect
 public class AroundAdvice {
-	@Pointcut("execution(* com.rubypaper.biz..*Impl.*(..))") // pointcut 메소드를 따로 선언해줘야한다.
-	public void allPointcut() {}
+//	@Pointcut("execution(* com.rubypaper.biz..*Impl.*(..))") // pointcut 메소드를 따로 선언해줘야한다.
+//	public void allPointcut() {}
 	
-	@Around("allPointcut()")
+	@Around("BoardPointcut.allPointcut()")
 	public Object aroundLog(ProceedingJoinPoint jp) throws Throwable {
+		String method = jp.getSignature().getName(); // 클라이언트가 호출한 메소드 이름. printlog가 호출된 후 호출되는 메소드
+		// JoinPoint에는 proceed()가 없다. 그래서 around에서는 ProceedingJoinPoint를 사용해야한다.
+		// proceedingJoinPoint는 JoinPoint의 자식 클래스이다. Spring 특성상 ProceedingJoinPoint는 around에서만 사용할 수 있다.
+		
 		Object obj = null;
 		System.out.println("--- Before Logic ---");
 		StopWatch watch = new StopWatch();
@@ -26,7 +30,7 @@ public class AroundAdvice {
 		
 		watch.stop();
 		System.out.println("--- After Logic ---");
-		System.out.println("비즈니스 메소드 수행 시간  : " + watch.getTotalTimeMillis());
+		System.out.println(method + "() 메소드 수행 시간  : " + watch.getTotalTimeMillis());
 		return obj;
 	}
 }
