@@ -23,6 +23,7 @@ public class UserDAO {
 	// USERS 테이블 관련 CRUD 기능의 메소드
 	// 회원 등록
 	public void insertUser(UserVO vo) {
+		System.out.println("==> InsertUser 호출");
 		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(USER_INSERT);
@@ -40,6 +41,7 @@ public class UserDAO {
 	
 	// 회원 상세 조회
 	public UserVO getUser(UserVO vo) {
+		System.out.println("==> getUser 호출");
 		UserVO user = null;
 		try {
 			conn = JDBCUtil.getConnection();

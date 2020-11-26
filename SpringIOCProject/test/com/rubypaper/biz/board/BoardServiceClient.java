@@ -13,6 +13,9 @@ public class BoardServiceClient {
 			System.out.println(service + " : lookup ¼º°ø");
 		}
 		BoardVO vo = new BoardVO();
+		vo.setSeq(0);
+		service.insertBoard(vo);
+		
 		vo.setSearchCondition("TITLE");
 		vo.setSearchKeyword("");
 		List<BoardVO> boardList = service.getBoardList(vo);
