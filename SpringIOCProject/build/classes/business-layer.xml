@@ -21,7 +21,7 @@
 	     *은 모든 문자가 들어올 수 있도록 하는 키워드이다.
 	     execution은 명시자라고 부른다. execution안의 파라미터 값을 pointCut expression(포인트컷 표현식)이라고 부른다.
 	           해당 표현식에 따라 호출되는 것이 달라진다.-->
-	           
+	
 	<!-- expression 
 	   	 return type : *, void, int, Object, com.rubypaper.biz 등등이 올 수 있다. *은 모든 타입을 수용
 	   	 pakage dir : com.rubypaper.biz..은 ~biz로 끝나는 모든 패키지
@@ -69,10 +69,22 @@
 		  실질적으로 횡단관심과 종단관심을 이어준다.
 		 pointcut에 해당하는 메소드가 실행되기 전/후에 aop:aspect ref 가 갖고 있는 method를 호출한다.-->
 		 
-		 
 	<!-- Annotation 기반의 AOP 설정 -->
 	<aop:aspectj-autoproxy/>
+		
+	<bean class="com.rubypaper.biz.board.BoardDAOSpring"/>
 	
-		  
+	<!-- DataSource 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	      <property name="driverClassName" value="org.h2.Driver"/>
+	      <property name="url"			   value="jdbc:h2:tcp://localhost/~/test"/>
+	      <property name="username"		   value="sa"/>
+	      <property name="password"		   value=""/>
+	      
+	</bean>
+	<!-- Spring JDBC 설정 -->
+	<bean id="spring" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
 </beans>
 

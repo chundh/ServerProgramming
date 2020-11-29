@@ -1,6 +1,6 @@
 <%@page import="com.rubypaper.biz.user.UserVO"%>
 <%@page import="java.util.List"%>
-<%@page import="com.rubypaper.biz.board.BoardDAO"%>
+<%@page import="com.rubypaper.biz.board.BoardDAOJDBC"%>
 <%@page import="com.rubypaper.biz.board.BoardVO"%>
 <%@page contentType="text/html; charset=EUC-KR"%>
 
@@ -21,7 +21,7 @@
 	vo.setSearchCondition(searchCondition);
 	vo.setSearchKeyword(searchKeyword);
 	
-	BoardDAO boardDAO = new BoardDAO();
+	BoardDAOJDBC boardDAO = new BoardDAOJDBC();
 	List<BoardVO> boardList = boardDAO.getBoardList(vo);
 	
 	// 3. 응답 화면 구성

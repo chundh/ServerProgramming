@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,7 +18,7 @@ import com.rubypaper.biz.common.JDBCUtil;
 //@Component("dao")
 // 실제로 사용되는 목적에 따라 service와 repository로 나누는 것이 가독성 향상에 좋다.
 // DB연동은 respository를 주로 사용한다.
-@Repository
+//@Repository
 public class BoardDAOSpring {
 	
 	@Autowired // JdbcTemplate는 내가 만든 클래스가 아니므로 따로 객체 생성을 할 수 없다. 그래서 xml에 bean등록해서 메모리에 객체를 띄운 후 spring에 객체를 할당한다.
@@ -53,11 +54,17 @@ public class BoardDAOSpring {
 	}
 	
 	// 글 상세 조회
-	public BoardVO getBoard(BoardVO vo) {
-		System.out.println("==> Spring 기반으로 getBoard() 처리");
-		spring.update(BOARD_GET);
-		BoardVO board = null;
-		return board;
+//	public BoardVO getBoard(BoardVO vo) {
+//		System.out.println("==> Spring 기반으로 getBoard() 처리");
+//		spring.update(BOARD_GET);
+//		BoardVO board = null;
+//		return board;
+//	}
+	
+	public Map<String, Object> getBoard(BoardVO vo){
+		System.out.println("==> spring 기반으로 getBoard() 처리");
+		Object[] args = {vo.getSeq()};
+		return spring.queryForMap(BOARD_GET, args);
 	}
 	
 	// 글 목록 검색

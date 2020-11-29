@@ -1,5 +1,5 @@
 <%@page import="com.rubypaper.biz.user.UserVO"%>
-<%@page import="com.rubypaper.biz.board.BoardDAO"%>
+<%@page import="com.rubypaper.biz.board.BoardDAOJDBC"%>
 <%@page import="com.rubypaper.biz.board.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
@@ -15,10 +15,10 @@
 	BoardVO vo = new BoardVO();
 	vo.setSeq(Integer.parseInt(seq));
 	
-	BoardDAO boardDAO = new BoardDAO();
+	BoardDAOJDBC boardDAO = new BoardDAOJDBC();
 	BoardVO board = boardDAO.getBoard(vo);
 	
-	// 3. 응답 화면 구성	
+	// 3. 응답 화면 구성
 %>
 
 <!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>

@@ -13,16 +13,19 @@ public class BoardServiceClient {
 			System.out.println(service + " : lookup ¼º°ø");
 		}
 		BoardVO vo = new BoardVO();
-		vo.setSeq(0);
+		vo.setSeq(11);
+		vo.setTitle("title");
+		vo.setWriter("writer");
+		vo.setContent("content");
 		service.insertBoard(vo);
 		
-		vo.setSearchCondition("TITLE");
-		vo.setSearchKeyword("");
-		List<BoardVO> boardList = service.getBoardList(vo);
-		System.out.println("[ BOARD LIST ]");
-		for(BoardVO board : boardList) {
-			System.out.println("---> " + board.toString());
-		}
-		container.close();
+//		vo.setSearchCondition("TITLE");
+//		vo.setSearchKeyword("");
+//		List<BoardVO> boardList = service.getBoardList(vo);
+//		System.out.println("[ BOARD LIST ]");
+//		for(BoardVO board : boardList) {
+//			System.out.println("---> " + board.toString());
+//		}
+//		container.close();
 	}
 }

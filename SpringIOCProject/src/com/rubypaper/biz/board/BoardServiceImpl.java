@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
-	private BoardDAO boardDAO;
+	private BoardDAO boardDAO; // boardDAO의 구현객체가 두개 이상 메모리에 적재되어 있으면 에러가 나므로, boardDAOJDBC, boardDAOSpring의 @repository를 지우고 xml에 bean등록해야한다.
+	
+//	@Autowired
+//	private BoardDAO boardDAO;
 
 	public BoardServiceImpl() {
 		System.out.println("==> boardServiceImpl 생성");
